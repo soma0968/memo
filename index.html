@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ひとことメモ</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="メモ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161c" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAB4UlEQVR42u3cwY3CQBBFQTxyPiYOyMicCYk8CIkEEDIX6093VQTQvG0z0izLdtsv8M0wAsSBOBAH4kAciANxIA7EgThAHIgDcSAOxIE4EAfiQByIA8SBOBAH4kAciANxIA6qWcNf3/v1rP0BXO+P2Ne2xP4EQ/ks8hNJjKNVFsmJDGV473PE0bmMwAkMc9GHoyzTxmFtBE7D5iA7DmsjcyY2B+JAHIgDcSAOxIE4EAfiQBwgDsSBOBAH4kAciANxIA76WWd80cn/mf7DdPeobQ7EgTgQB+LAaaX8136bA3EgDhAH4kAciANxIA7EgTgQB+JAHCAOjnP7/Dxun+OxgjgQB4iD8qcVt89tDsSBOBAH4kAciAPEgTgQB+JAHIgDcSAOCnP7/Dxun+OxgjgQB4iD8qcVt89tDsSBOBAH4kAciAPEgTgQB+JAHIgDcSAOCnP7/KiGl0hsDsSBOBAH4sBpxcHB5kAciANxIA4QB+JAHIiDvnFM+uuA5WdicxAfh+UROA2bgxnisDzS5jDMxQSmeax07iPtvS/bbc+cVKsbPZl/ErlxNEkkeVOmx4HvHIgDcSAOxIE4QByIA3EgDsSBOBAH4kAciAPEgTgQB+JAHIgDcSAOxIE4EIcRIA7+9gEaS0hPIRjpYgAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAB4UlEQVR42u3cwY3CQBBFQTxyPiYOyMicCYk8CIkEEDIX6093VQTQvG0z0izLdtsv8M0wAsSBOBAH4kAciANxIA7EgThAHIgDcSAOxIE4EAfiQByIA8SBOBAH4kAciANxIA6qWcNf3/v1rP0BXO+P2Ne2xP4EQ/ks8hNJjKNVFsmJDGV473PE0bmMwAkMc9GHoyzTxmFtBE7D5iA7DmsjcyY2B+JAHIgDcSAOxIE4EAfiQBwgDsSBOBAH4kAciANxIA76WWd80cn/mf7DdPeobQ7EgTgQB+LAaaX8136bA3EgDhAH4kAciANxIA7EgTgQB+JAHCAOjnP7/Dxun+OxgjgQB4iD8qcVt89tDsSBOBAH4kAciAPEgTgQB+JAHIgDcSAOCnP7/Dxun+OxgjgQB4iD8qcVt89tDsSBOBAH4kAciAPEgTgQB+JAHIgDcSAOCnP7/KiGl0hsDsSBOBAH4sBpxcHB5kAciANxIA4QB+JAHIiDvnFM+uuA5WdicxAfh+UROA2bgxnisDzS5jDMxQSmeax07iPtvS/bbc+cVKsbPZl/ErlxNEkkeVOmx4HvHIgDcSAOxIE4QByIA3EgDsSBOBAH4kAciAPEgTgQB+JAHIgDcSAOxIE4EIcRIA7+9gEaS0hPIRjpYgAAAABJRU5ErkJggg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600&display=swap">
+<style>
+/* Standalone build: notes and photos live in this phone (IndexedDB). Layout: phone-first single column; the list and the note swap like pages, quick entry sits at the thumb */
+:root {
+  --bg: #f3f4f6;
+  --panel: #ffffff;
+  --ink: #1d2230;
+  --muted: #6b7183;
+  --line: #e1e3ea;
+  --accent: #2f4a7a;
+  --accent-soft: #e6ebf4;
+  --danger: #b4372f;
+  --scrim: rgba(20, 22, 28, .62);
+  --on-scrim: #ffffff;
+  --font-display: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14161c; --panel: #1b1e26; --ink: #e7e9ef; --muted: #959aab;
+    --line: #2b2f3a; --accent: #9db4e0; --accent-soft: #263049; --danger: #ef8b82;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14161c; --panel: #1b1e26; --ink: #e7e9ef; --muted: #959aab;
+  --line: #2b2f3a; --accent: #9db4e0; --accent-soft: #263049; --danger: #ef8b82;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { height: 100%; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); -webkit-text-size-adjust: 100%; }
+body { height: 100%; margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+.tools { display: flex; align-items: center; gap: 6px; }
+.small { border: 1px solid var(--line); background: var(--panel); color: var(--muted); border-radius: 999px; padding: 6px 12px; font-size: 13px; }
+.backup { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; display: grid; gap: 10px; font-size: 13px; color: var(--muted); }
+.backup .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.backup .row button, .backup .row label { border: 1.5px solid var(--accent); background: var(--panel); color: var(--accent); border-radius: 999px; padding: 8px 14px; font-weight: 500; font-size: 14px; cursor: pointer; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.7;
+}
+.app {
+  height: 100%; box-sizing: border-box;
+  display: grid; grid-template-columns: 1fr;
+  padding-block: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  max-width: 640px; margin: 0 auto;
+}
+.app.editing .list-pane { display: none; }
+.app:not(.editing) .edit-pane { display: none; }
+.pane { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+
+/* list */
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 12px; }
+.brand { font-family: var(--font-display); font-size: 22px; letter-spacing: .04em; margin: 0; }
+.count { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.new {
+  border: 0; background: var(--accent); color: var(--panel);
+  padding: 7px 14px; border-radius: 999px; font-weight: 500; font-size: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.search {
+  width: 100%; box-sizing: border-box; border: 1px solid var(--line); background: var(--panel);
+  border-radius: var(--radius); padding: 10px 12px; font: inherit; font-size: 16px; color: var(--ink); margin-bottom: 8px;
+}
+.list { list-style: none; margin: 0; padding: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.item {
+  width: 100%; text-align: left; border: 0; background: transparent;
+  padding: 13px 12px; border-radius: var(--radius);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 2px;
+}
+.item:hover { background: var(--panel); }
+.item .t, .item .s, .item .d { grid-column: 1; min-width: 0; }
+.item .t { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .s { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .d { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.item .th {
+  grid-column: 2; grid-row: 1 / span 3; align-self: center;
+  width: 52px; height: 52px; border-radius: 8px; object-fit: cover; background: var(--line);
+  display: grid; place-items: center; color: var(--muted); font-size: 11px;
+}
+.empty-list { color: var(--muted); font-size: 14px; padding: 24px 12px; text-align: center; }
+
+/* quick entry */
+.toast { font-size: 13px; color: var(--accent); min-height: 20px; padding: 4px 4px 2px; }
+.pending { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 8px; }
+.quick { display: flex; align-items: flex-end; gap: 8px; padding-top: 6px; border-top: 1px solid var(--line); }
+.quick textarea {
+  flex: 1; min-width: 0; border: 1.5px solid var(--accent); background: var(--panel); color: var(--ink);
+  border-radius: var(--radius); padding: 10px 12px; font: inherit; font-size: 16px; line-height: 1.5;
+  max-height: 10.5em; overflow-y: auto;
+}
+.quick button { border: 0; background: var(--accent); color: var(--panel); border-radius: var(--radius); padding: 0 16px; height: 47px; font-weight: 500; flex: none; }
+.quick button:disabled { opacity: .6; }
+.attach {
+  flex: none; width: 47px; height: 47px; box-sizing: border-box; border-radius: var(--radius);
+  border: 1.5px solid var(--accent); background: var(--panel); color: var(--accent);
+  display: grid; place-items: center; cursor: pointer;
+}
+.attach svg { width: 22px; height: 22px; }
+.sr { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+
+/* thumbnails */
+.thumb { position: relative; flex: none; width: 68px; height: 68px; border-radius: 8px; overflow: hidden; background: var(--line); }
+.thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb .x {
+  position: absolute; top: 3px; right: 3px; width: 26px; height: 26px; border-radius: 50%;
+  border: 0; background: var(--scrim); color: var(--on-scrim); font-size: 15px; line-height: 1; display: grid; place-items: center;
+}
+.thumb .tag, .thumb .busy {
+  position: absolute; left: 0; right: 0; bottom: 0; background: var(--scrim); color: var(--on-scrim);
+  font-size: 10px; text-align: center; padding: 1px 0;
+}
+.thumb .busy { top: 0; display: grid; place-items: center; font-size: 11px; }
+.add-tile {
+  flex: none; width: 68px; height: 68px; box-sizing: border-box; border-radius: 8px;
+  border: 1.5px dashed var(--accent); color: var(--accent); display: grid; place-items: center;
+  text-align: center; font-size: 11px; line-height: 1.3; cursor: pointer;
+}
+
+/* note */
+.editor {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  display: flex; flex-direction: column; min-height: 0; flex: 1;
+}
+.bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px; row-gap: 4px; padding: 6px 10px;
+  border-bottom: 1px solid var(--line); color: var(--muted); font-size: 13px;
+}
+.bar .spacer { flex: 1; }
+#date { flex-basis: 100%; order: 1; font-variant-numeric: tabular-nums; padding: 0 6px 2px; }
+.back { border: 0; background: none; color: var(--accent); padding: 8px 6px; font-weight: 500; font-size: 15px; }
+.ghost { border: 0; background: none; padding: 8px 10px; border-radius: 6px; color: var(--muted); }
+.ghost.danger { color: var(--danger); }
+.done { border: 0; background: var(--accent); color: var(--panel); padding: 8px 18px; border-radius: 999px; font-weight: 500; }
+.stat { font-variant-numeric: tabular-nums; }
+textarea {
+  flex: 1; border: 0; resize: none; background: transparent; color: var(--ink);
+  font: inherit; font-size: 16px; line-height: 1.85; padding: 16px;
+  min-height: 0; outline: none;
+}
+textarea::placeholder { color: var(--muted); }
+.edit-media { display: flex; gap: 8px; overflow-x: auto; padding: 10px 12px; border-top: 1px solid var(--line); }
+.view { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; font-size: 16px; line-height: 1.85; }
+.view .body { white-space: pre-wrap; overflow-wrap: anywhere; -webkit-user-select: text; user-select: text; }
+.gallery { display: grid; gap: 10px; margin-top: 14px; }
+.gallery:first-child { margin-top: 0; }
+.gallery img, .gallery video {
+  width: 100%; max-height: 75vh; object-fit: contain; display: block;
+  border-radius: 10px; background: var(--bg);
+}
+.broken {
+  width: 100%; padding: 28px 12px; border: 1px dashed var(--line); border-radius: 10px;
+  background: var(--bg); color: var(--muted); font-size: 13px;
+}
+.blank {
+  flex: 1; display: grid; place-content: center; text-align: center; gap: 12px;
+  color: var(--muted); padding: 32px;
+}
+.blank strong { font-family: var(--font-display); font-size: 20px; color: var(--ink); font-weight: 600; }
+.note-msg { font-size: 12px; color: var(--muted); padding: 0 4px 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .item { transition: background .15s; }
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <section class="pane list-pane" aria-label="メモ一覧">
+    <div class="head">
+      <div>
+        <h1 class="brand">ひとことメモ</h1>
+        <div class="count" id="count">読み込み中…</div>
+      </div>
+      <div class="tools">
+        <button class="small" id="backupBtn" type="button" aria-expanded="false">バックアップ</button>
+        <button class="new" id="newBtn" type="button" aria-label="新しいメモ">＋ 新規</button>
+      </div>
+    </div>
+    <div class="backup" id="backup" hidden>
+      <div>メモと写真はこのスマホの中だけに保存されます。機種変更の前や、ときどき保存しておくと安心です。</div>
+      <div class="row">
+        <button type="button" id="exportBtn">バックアップを保存</button>
+        <label>バックアップから戻す<input class="sr" id="importFile" type="file" accept="application/json,.json"></label>
+      </div>
+      <div id="backupMsg" aria-live="polite"></div>
+    </div>
+    <input class="search" id="search" type="search" placeholder="メモを検索" aria-label="メモを検索">
+    <ul class="list" id="list"></ul>
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <div class="pending" id="pending" hidden></div>
+    <form class="quick" id="quick">
+      <label class="attach" id="attachQuick" hidden aria-label="写真を添付">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2.5"/><path d="M8.5 6l1.4-2h4.2l1.4 2"/><circle cx="12" cy="13" r="3.6"/></svg>
+        <input class="sr" id="fileQuick" type="file" accept="image/*" multiple>
+      </label>
+      <textarea id="quickIn" rows="1" placeholder="さっとメモ" aria-label="さっとメモ" enterkeyhint="enter"></textarea>
+      <button type="submit" id="quickBtn">保存</button>
+    </form>
+    <div class="note-msg" id="where"></div>
+  </section>
+
+  <section class="pane edit-pane" aria-label="メモ">
+    <div class="editor">
+      <div class="bar" id="bar" hidden>
+        <button class="back" id="backBtn" type="button">‹ 一覧</button>
+        <span id="date"></span>
+        <span class="spacer"></span>
+        <span class="stat" id="stat"></span>
+        <span id="saved"></span>
+        <button class="ghost danger" id="delBtn" type="button">削除</button>
+        <button class="done" id="doneBtn" type="button">完了</button>
+        <button class="done" id="editBtn" type="button">編集</button>
+        <span id="confirm" hidden>
+          <button class="ghost danger" id="delYes" type="button">本当に削除</button>
+          <button class="ghost" id="delNo" type="button">やめる</button>
+        </span>
+      </div>
+      <textarea id="text" hidden placeholder="ここに書く。1行目がタイトルになります。" aria-label="メモ本文"></textarea>
+      <div class="edit-media" id="editMedia" hidden></div>
+      <input class="sr" id="fileEdit" type="file" accept="image/*" multiple tabindex="-1" aria-hidden="true">
+      <div class="view" id="view" hidden></div>
+      <div class="blank" id="blank">
+        <strong>メモを選ぶか、新しく書きましょう</strong>
+        <span>書いた内容は自動で保存されます</span>
+        <div><button class="new" id="newBtn2" type="button">＋ 新しいメモ</button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const app = $("app"), listEl = $("list"), text = $("text"), bar = $("bar"), blank = $("blank"), view = $("view");
+  let notes = new Map();      // id -> {id, body, created, updated, media:[{id,type}]}
+  let activeId = null, query = "", store = null, assets = null;
+  let saveTimer = null, saving = Promise.resolve(), dirty = false, editMode = false;
+  let pending = [];           // quick-entry attachments
+  let editUploads = [];       // uploads in progress inside the open note
+  let viewKey = "";
+
+  const blobUrl = id => "/_blob/" + id;
+  const urlFor = id => blobUrl(id);
+  const hasContent = n => !!(n && (n.body || (n.media && n.media.length)));
+  const isVideoFile = f => f.type.startsWith("video/") || /\.(mov|mp4|m4v|webm)$/i.test(f.name || "");
+  const fmt = ts => {
+    const d = new Date(ts);
+    const w = "日月火水木金土"[d.getDay()];
+    const hh = String(d.getHours()).padStart(2, "0"), mm = String(d.getMinutes()).padStart(2, "0");
+    return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日（${w}）${hh}:${mm}`;
+  };
+  const mediaLabel = m => {
+    const i = m.filter(x => x.type === "image").length, v = m.length - i;
+    return [i ? `写真${i}` : "", v ? `動画${v}` : ""].filter(Boolean).join("・");
+  };
+  const titleOf = n => {
+    const line = (n.body || "").split("\n").find(l => l.trim());
+    if (line) return line.trim();
+    if (n.media?.length) return "写真メモ";
+    return "新しいメモ";
+  };
+  const snippetOf = n => {
+    const lines = (n.body || "").split("\n").filter(l => l.trim());
+    const parts = [];
+    if (lines[1]) parts.push(lines[1].trim());
+    if (n.media?.length) parts.push(mediaLabel(n.media));
+    return parts.join("　") || (hasContent(n) ? "本文なし" : "書き始めてください");
+  };
+  const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  let toastTimer;
+  const toast = msg => { const t = $("toast"); t.textContent = msg; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.textContent = "", 3000); };
+  const errMsg = e => {
+    if (e?.code === "video") return "動画は保存できません。写真を選んでください";
+    if (e?.code === "unsupported_type") return "この形式の写真は読み込めませんでした";
+    if (e?.code === "quota_exceeded") return "保存容量がいっぱいです。いらない写真を消してください";
+    return "写真を保存できませんでした。もう一度お試しください";
+  };
+
+  /* ---------- photos: shrunk to JPEG and kept in the same store as the notes ---------- */
+  const LIMIT = 230000; // characters of data URL per photo (store limit is 256 KiB per record)
+  async function toDataUrl(file) {
+    let bmp;
+    try { bmp = await createImageBitmap(file); }
+    catch {
+      bmp = await new Promise((res, rej) => {
+        const im = new Image(); const u = URL.createObjectURL(file);
+        im.onload = () => { URL.revokeObjectURL(u); res(im); };
+        im.onerror = () => { URL.revokeObjectURL(u); rej({ code: "unsupported_type" }); };
+        im.src = u;
+      });
+    }
+    const W = bmp.width || bmp.naturalWidth, H = bmp.height || bmp.naturalHeight;
+    for (const side of [1600, 1280, 1024, 800, 640]) {
+      const scale = Math.min(1, side / Math.max(W, H));
+      const c = document.createElement("canvas");
+      c.width = Math.round(W * scale); c.height = Math.round(H * scale);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      for (const q of [0.82, 0.7, 0.58]) {
+        const url = c.toDataURL("image/jpeg", q);
+        if (url.length <= LIMIT) { if (bmp.close) bmp.close(); return url; }
+      }
+    }
+    throw { code: "unsupported_type" };
+  }
+  const imgCache = new Map();
+  async function uploadFile(file) {
+    if (isVideoFile(file)) throw { code: "video" };
+    const url = await toDataUrl(file);
+    const id = "p" + newId();
+    await store.putImage(id, url);
+    imgCache.set(id, url);
+    return { id, type: "image" };
+  }
+  const dropAsset = id => { if (store && store.delImage) store.delImage(id).catch(() => {}); };
+  function loadMedia(el, id, onFail) {
+    if (imgCache.has(id)) { el.src = imgCache.get(id); return; }
+    if (!store || !store.getImage) { onFail && onFail(); return; }
+    store.getImage(id).then(url => {
+      if (!url) throw 0;
+      imgCache.set(id, url); el.src = url;
+    }).catch(() => onFail && onFail());
+  }
+  function brokenEl(id, cls) {
+    const b = document.createElement("button"); b.type = "button"; b.className = cls;
+    b.textContent = "写真を読み込めませんでした（タップで再読み込み）";
+    b.addEventListener("click", () => { viewKey = ""; const n = notes.get(activeId); if (n) renderView(n); });
+    return b;
+  }
+
+  function thumbEl({ src, type, busy, onRemove }) {
+    const d = document.createElement("div"); d.className = "thumb";
+    if (type === "video") {
+      const v = document.createElement("video");
+      v.src = (src.startsWith("/_blob/") ? urlFor(src.slice(7)) : src) + "#t=0.1"; v.muted = true; v.playsInline = true; v.preload = "metadata";
+      d.append(v);
+      const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = "動画"; d.append(tag);
+    } else {
+      const i = document.createElement("img"); i.alt = ""; d.append(i);
+      if (src.startsWith("/_blob/")) loadMedia(i, src.slice(7)); else i.src = src;
+    }
+    if (busy) { const b = document.createElement("span"); b.className = "busy"; b.textContent = "送信中…"; d.append(b); }
+    if (onRemove) {
+      const x = document.createElement("button"); x.type = "button"; x.className = "x"; x.textContent = "×";
+      x.setAttribute("aria-label", "取り外す"); x.addEventListener("click", onRemove); d.append(x);
+    }
+    return d;
+  }
+
+  /* ---------- stores ---------- */
+  // This phone's own storage (IndexedDB): notes and photos for anyone who isn't saving to the owner's account.
+  function deviceStore() {
+    if (!window.indexedDB) throw 0;
+    let dbp;
+    const open = () => dbp || (dbp = new Promise((res, rej) => {
+      const r = indexedDB.open("hitokoto-memo", 1);
+      r.onupgradeneeded = () => { const d = r.result; d.createObjectStore("notes", { keyPath: "id" }); d.createObjectStore("photos"); };
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    }));
+    const tx = async (name, mode, fn) => {
+      const d = await open();
+      return new Promise((res, rej) => {
+        const t = d.transaction(name, mode);
+        const req = fn(t.objectStore(name));
+        t.oncomplete = () => res(req ? req.result : undefined);
+        t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+      });
+    };
+    const clean = n => ({ id: n.id, body: n.body || "", created: n.created || n.updated || Date.now(), updated: n.updated || Date.now(), media: (n.media || []).map(m => ({ id: m.id, type: m.type })) });
+    return {
+      kind: "device",
+      async load(cb) {
+        try {
+          let old = [];
+          try { old = JSON.parse(localStorage.getItem("hitokoto-memo-v1") || "[]"); } catch {}
+          if (old.length) {
+            await tx("notes", "readwrite", st => { old.forEach(n => st.put(clean(n))); });
+            try { localStorage.removeItem("hitokoto-memo-v1"); } catch {}
+          }
+          cb((await tx("notes", "readonly", st => st.getAll())) || []);
+        } catch { cb([]); }
+      },
+      save: n => tx("notes", "readwrite", st => st.put(clean(n))),
+      remove: id => tx("notes", "readwrite", st => st.delete(id)),
+      putImage: (id, url) => tx("photos", "readwrite", st => st.put(url, id)),
+      getImage: id => tx("photos", "readonly", st => st.get(id)),
+      delImage: id => tx("photos", "readwrite", st => st.delete(id))
+    };
+  }
+  function localStore() {
+    const KEY = "hitokoto-memo-v1";
+    const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; } };
+    const write = arr => { try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch {} };
+    return {
+      kind: "local",
+      load(cb) { cb(read()); },
+      async save(n) { const arr = read().filter(x => x.id !== n.id); arr.push(n); write(arr); },
+      async remove(id) { write(read().filter(x => x.id !== id)); }
+    };
+  }
+  function ingest(arr) {
+    const next = new Map();
+    for (const n of arr) {
+      if (!n || typeof n.body !== "string") continue;
+      next.set(n.id, {
+        id: n.id, body: n.body, updated: n.updated || 0, created: n.created || n.updated || 0,
+        media: Array.isArray(n.media) ? n.media.filter(m => m && typeof m.id === "string") : []
+      });
+    }
+    if (activeId && notes.has(activeId) && (dirty || document.activeElement === text)) next.set(activeId, notes.get(activeId));
+    if (activeId && !next.has(activeId) && notes.has(activeId) && !hasContent(notes.get(activeId))) next.set(activeId, notes.get(activeId));
+    notes = next;
+    if (activeId && !notes.has(activeId)) closeNote();
+    renderList();
+    if (activeId && document.activeElement !== text && !dirty) text.value = notes.get(activeId).body;
+    renderBar();
+  }
+
+  /* ---------- render ---------- */
+  function renderList() {
+    const all = [...notes.values()].sort((a, b) => b.created - a.created).filter(n => hasContent(n) || n.id === activeId);
+    const q = query.trim().toLowerCase();
+    const shown = q ? all.filter(n => n.body.toLowerCase().includes(q)) : all;
+    const saved = all.filter(hasContent).length;
+    $("count").textContent = saved ? `${saved}件のメモ` : "メモはまだありません";
+    listEl.replaceChildren();
+    if (!shown.length) {
+      const li = document.createElement("li"); li.className = "empty-list";
+      li.textContent = q ? "見つかりませんでした" : "下の欄に書くか、写真を添えて保存してみましょう";
+      listEl.append(li); return;
+    }
+    for (const n of shown) {
+      const li = document.createElement("li");
+      const b = document.createElement("button"); b.type = "button"; b.className = "item";
+      const t = document.createElement("span"); t.className = "t"; t.textContent = titleOf(n);
+      const s = document.createElement("span"); s.className = "s"; s.textContent = snippetOf(n);
+      const d = document.createElement("span"); d.className = "d"; d.textContent = fmt(n.created);
+      b.append(t, s, d);
+      const first = n.media?.find(m => m.type === "image");
+      if (first) {
+        const im = document.createElement("img"); im.className = "th"; im.alt = "";
+        b.append(im); loadMedia(im, first.id, () => { im.replaceWith(Object.assign(document.createElement("span"), { className: "th", textContent: "写真" })); });
+      } else if (n.media?.length) {
+        const v = document.createElement("span"); v.className = "th"; v.textContent = "▶ 動画"; b.append(v);
+      }
+      b.addEventListener("click", () => openNote(n.id));
+      li.append(b); listEl.append(li);
+    }
+  }
+  function renderView(n) {
+    const key = n.id + "|" + n.body + "|" + n.media.map(m => m.id).join(",");
+    if (key === viewKey) return;
+    viewKey = key;
+    view.replaceChildren();
+    if (n.body) { const b = document.createElement("div"); b.className = "body"; b.textContent = n.body; view.append(b); }
+    if (n.media.length) {
+      const g = document.createElement("div"); g.className = "gallery";
+      for (const m of n.media) {
+        if (m.type === "video") {
+          const v = document.createElement("video");
+          v.src = urlFor(m.id) + "#t=0.1"; v.controls = true; v.playsInline = true; v.preload = "metadata";
+          g.append(v);
+        } else {
+          const i = document.createElement("img"); i.alt = "メモの写真";
+          g.append(i); loadMedia(i, m.id, () => i.replaceWith(brokenEl(m.id, "broken")));
+        }
+      }
+      view.append(g);
+    }
+  }
+  function renderEditMedia(n) {
+    const box = $("editMedia");
+    box.hidden = !editMode || !assets;
+    if (box.hidden) return;
+    box.replaceChildren();
+    for (const m of n.media) box.append(thumbEl({ src: blobUrl(m.id), type: m.type, onRemove: () => removeMedia(m.id) }));
+    for (const u of editUploads) box.append(thumbEl({ src: u.preview, type: u.type, busy: true }));
+    const add = document.createElement("label"); add.className = "add-tile"; add.htmlFor = "fileEdit";
+    add.innerHTML = "＋<br>写真";
+    box.append(add);
+  }
+  function renderBar() {
+    const n = activeId && notes.get(activeId);
+    bar.hidden = !n; blank.hidden = !!n;
+    text.hidden = !n || !editMode; view.hidden = !n || editMode;
+    $("doneBtn").hidden = !editMode; $("editBtn").hidden = editMode;
+    if (!n) { $("editMedia").hidden = true; viewKey = ""; return; }
+    if (editMode) { viewKey = ""; renderEditMedia(n); } else { $("editMedia").hidden = true; renderView(n); }
+    const edited = n.updated - n.created > 60000;
+    $("date").textContent = fmt(n.created) + (edited ? `（${fmt(n.updated)} 更新）` : "");
+    $("stat").textContent = `${[...text.value.replace(/\s/g, "")].length}文字`;
+  }
+  function renderPending() {
+    const box = $("pending");
+    box.hidden = !pending.length;
+    box.replaceChildren(...pending.map(p => thumbEl({
+      src: p.preview, type: p.type, busy: p.state === "up",
+      onRemove: () => { pending = pending.filter(x => x !== p); if (p.id) dropAsset(p.id); URL.revokeObjectURL(p.preview); renderPending(); }
+    })));
+  }
+  function setSaved(msg) { $("saved").textContent = msg; }
+
+  /* ---------- actions ---------- */
+  async function flush() {
+    clearTimeout(saveTimer);
+    if (!dirty || !activeId) return;
+    dirty = false;
+    const n = notes.get(activeId);
+    if (!n) return;
+    const snapshot = { ...n, media: [...n.media] };
+    setSaved("保存中…");
+    saving = saving.then(async () => {
+      try {
+        if (hasContent(snapshot)) await store.save(snapshot);
+        else await store.remove(snapshot.id);
+        setSaved(dirty ? "" : "保存済み");
+      } catch { setSaved("保存できませんでした。もう一度入力すると再試行します"); }
+    });
+    await saving;
+  }
+  function markChanged(n) { n.updated = Date.now(); dirty = true; setSaved(""); renderList(); renderBar(); }
+  function openNote(id, edit = false) {
+    if (activeId && activeId !== id) leaveCurrent();
+    activeId = id;
+    text.value = notes.get(id)?.body || "";
+    editMode = edit; editUploads = [];
+    hideConfirm(); setSaved("");
+    app.classList.add("editing");
+    renderList(); renderBar();
+    view.scrollTop = 0;
+    if (edit) text.focus();
+  }
+  function startEdit() {
+    editMode = true; hideConfirm(); renderBar();
+    text.focus(); text.setSelectionRange(text.value.length, text.value.length);
+  }
+  function leaveCurrent() {
+    flush();
+    const cur = notes.get(activeId);
+    if (cur && !hasContent(cur)) notes.delete(activeId);
+  }
+  function closeNote() {
+    activeId = null; editUploads = []; app.classList.remove("editing"); hideConfirm();
+    renderBar();
+  }
+  function newNote() {
+    if (!store) return;
+    if (activeId) leaveCurrent();
+    const id = newId(), now = Date.now();
+    notes.set(id, { id, body: "", updated: now, created: now, media: [] });
+    query = ""; $("search").value = "";
+    openNote(id, true);
+  }
+  function hideConfirm() { $("confirm").hidden = true; $("delBtn").hidden = false; }
+  async function removeMedia(mid) {
+    const n = notes.get(activeId); if (!n) return;
+    n.media = n.media.filter(m => m.id !== mid);
+    markChanged(n);
+    await flush();
+    dropAsset(mid);
+  }
+
+  text.addEventListener("input", () => {
+    const n = notes.get(activeId); if (!n) return;
+    n.body = text.value; markChanged(n);
+    clearTimeout(saveTimer); saveTimer = setTimeout(flush, 700);
+  });
+  text.addEventListener("blur", flush);
+  window.addEventListener("pagehide", flush);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) flush(); });
+
+  $("fileEdit").addEventListener("change", e => {
+    const files = [...e.target.files]; e.target.value = "";
+    const noteId = activeId;
+    for (const f of files) {
+      const u = { preview: URL.createObjectURL(f), type: isVideoFile(f) ? "video" : "image" };
+      editUploads.push(u);
+      uploadFile(f).then(async m => {
+        editUploads = editUploads.filter(x => x !== u);
+        const n = notes.get(noteId);
+        if (!n) { dropAsset(m.id); return; }
+        n.media = [...n.media, m];
+        if (activeId === noteId) { markChanged(n); await flush(); }
+        else { n.updated = Date.now(); store.save(n).catch(() => {}); }
+      }, err => {
+        editUploads = editUploads.filter(x => x !== u);
+        toast(errMsg(err)); setSaved(errMsg(err)); renderBar();
+      }).finally(() => URL.revokeObjectURL(u.preview));
+    }
+    renderBar();
+  });
+  $("fileQuick").addEventListener("change", e => {
+    const files = [...e.target.files]; e.target.value = "";
+    for (const f of files) {
+      const p = { preview: URL.createObjectURL(f), type: isVideoFile(f) ? "video" : "image", state: "up" };
+      pending.push(p);
+      p.job = uploadFile(f).then(m => {
+        if (!pending.includes(p)) { dropAsset(m.id); return; }
+        p.id = m.id; p.state = "ok"; renderPending();
+      }, err => {
+        pending = pending.filter(x => x !== p); URL.revokeObjectURL(p.preview);
+        toast(errMsg(err)); renderPending();
+      });
+    }
+    renderPending();
+  });
+
+  $("newBtn").addEventListener("click", newNote);
+  $("newBtn2").addEventListener("click", newNote);
+  $("backBtn").addEventListener("click", () => { leaveCurrent(); closeNote(); renderList(); });
+  $("doneBtn").addEventListener("click", () => {
+    flush(); text.blur();
+    const n = notes.get(activeId);
+    if (hasContent(n) || editUploads.length) { editMode = false; renderBar(); renderList(); }
+    else { leaveCurrent(); closeNote(); renderList(); }
+  });
+  $("editBtn").addEventListener("click", startEdit);
+  $("quick").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!store) return;
+    const inp = $("quickIn"), btn = $("quickBtn");
+    if (pending.some(p => p.state === "up")) {
+      btn.disabled = true; btn.textContent = "送信中";
+      await Promise.all(pending.map(p => p.job));
+      btn.disabled = false; btn.textContent = "保存";
+    }
+    const body = inp.value.trim();
+    const used = pending.filter(p => p.state === "ok");
+    const media = used.map(p => ({ id: p.id, type: p.type }));
+    if (!body && !media.length) return;
+    const now = Date.now();
+    const n = { id: newId(), body, updated: now, created: now, media };
+    notes.set(n.id, n); inp.value = ""; grow();
+    pending = pending.filter(p => !used.includes(p)); renderPending(); renderList();
+    try {
+      await store.save(n);
+      used.forEach(p => URL.revokeObjectURL(p.preview));
+      toast("保存しました");
+    } catch {
+      toast("保存できませんでした。もう一度お試しください");
+      inp.value = body; grow(); notes.delete(n.id); pending = used.concat(pending); renderPending(); renderList();
+    }
+  });
+  function grow() { const q = $("quickIn"); q.style.height = "auto"; q.style.height = q.scrollHeight + 3 + "px"; }
+  $("quickIn").addEventListener("input", grow);
+  $("search").addEventListener("input", e => { query = e.target.value; renderList(); });
+  $("delBtn").addEventListener("click", () => { $("delBtn").hidden = true; $("confirm").hidden = false; });
+  $("delNo").addEventListener("click", hideConfirm);
+  $("delYes").addEventListener("click", async () => {
+    const id = activeId; if (!id) return;
+    const media = notes.get(id)?.media || [];
+    clearTimeout(saveTimer); dirty = false;
+    notes.delete(id); closeNote(); renderList();
+    try { await saving; await store.remove(id); media.forEach(m => dropAsset(m.id)); } catch {}
+  });
+
+  /* ---------- backup ---------- */
+  async function exportBackup() {
+    const ns = [...notes.values()].filter(hasContent);
+    const photos = {};
+    for (const n of ns) for (const m of n.media) {
+      const u = imgCache.get(m.id) || await store.getImage(m.id);
+      if (u) photos[m.id] = u;
+    }
+    const json = JSON.stringify({ app: "hitokoto-memo", version: 1, exported: Date.now(),
+      notes: ns.map(n => ({ id: n.id, body: n.body, created: n.created, updated: n.updated, media: n.media })), photos });
+    const d = new Date();
+    const name = `memo-backup-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}.json`;
+    const file = new File([json], name, { type: "application/json" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: name }); return "保存先を選んだら完了です（iPhoneは「\"ファイル\"に保存」）"; }
+      catch (e) { if (e && e.name === "AbortError") return ""; }
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(file); a.download = name;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+    return "バックアップを保存しました（ダウンロードに入ります）";
+  }
+  async function importBackup(file) {
+    const j = JSON.parse(await file.text());
+    if (!j || j.app !== "hitokoto-memo" || !Array.isArray(j.notes)) throw 0;
+    for (const [id, url] of Object.entries(j.photos || {})) {
+      if (typeof url === "string" && url.startsWith("data:image/")) await store.putImage(id, url);
+    }
+    let count = 0;
+    for (const n of j.notes) {
+      if (!n || typeof n.id !== "string" || typeof n.body !== "string") continue;
+      await store.save(n); count++;
+    }
+    return count;
+  }
+  $("backupBtn").addEventListener("click", () => {
+    const p = $("backup"); p.hidden = !p.hidden;
+    $("backupBtn").setAttribute("aria-expanded", String(!p.hidden)); $("backupMsg").textContent = "";
+  });
+  $("exportBtn").addEventListener("click", async () => {
+    $("backupMsg").textContent = "準備中…";
+    try { $("backupMsg").textContent = await exportBackup(); }
+    catch { $("backupMsg").textContent = "保存できませんでした。もう一度お試しください"; }
+  });
+  $("importFile").addEventListener("change", async e => {
+    const f = e.target.files[0]; e.target.value = "";
+    if (!f) return;
+    $("backupMsg").textContent = "読み込み中…";
+    try {
+      const c = await importBackup(f);
+      store.load(ingest);
+      $("backupMsg").textContent = `${c}件のメモを戻しました`;
+    } catch { $("backupMsg").textContent = "このファイルは読み込めませんでした。ひとことメモのバックアップを選んでください"; }
+  });
+
+  /* ---------- boot ---------- */
+  renderBar();
+  try {
+    store = deviceStore(); assets = true;
+    $("attachQuick").hidden = false;
+    $("where").textContent = "このスマホの中に保存しています";
+    try { navigator.storage && navigator.storage.persist && navigator.storage.persist().catch(() => {}); } catch {}
+  } catch {
+    store = localStore(); assets = null;
+    $("attachQuick").hidden = true;
+    $("where").textContent = "このブラウザでは写真を保存できません";
+  }
+  store.load(ingest);
+})();
+</script>
+</body>
+</html>
